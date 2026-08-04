@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#090d18" />
+    <meta name="description" content="Base27 Free LLM Router — trilingual OpenAI-compatible chat with legitimate provider failover." />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/styles.css" />
+    <title>Base27 Free LLM Router</title>
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="topbar">
+        <a class="brand" href="/" aria-label="Base27 Free LLM Router">
+          <span class="brand-mark" aria-hidden="true">B</span>
+          <span class="brand-copy">
+            <strong><span class="base">Base</span><span class="twenty-seven">27</span></strong>
+            <small>FREE LLM ROUTER</small>
+          </span>
+        </a>
+
+        <div class="topbar-actions">
+          <div id="global-status" class="status-pill status-checking">
+            <span class="status-dot"></span>
+            <span data-i18n="checking">Đang kiểm tra</span>
+          </div>
+          <label class="select-wrap">
+            <span class="sr-only" data-i18n="language">Ngôn ngữ</span>
+            <select id="language-select" aria-label="Language">
+              <option value="vi">🇻🇳 Tiếng Việt</option>
+              <option value="en">🇬🇧 English</option>
+              <option value="zh">🇨🇳 中文</option>
+            </select>
+          </label>
+          <button id="settings-button" class="icon-button" type="button" data-i18n-title="settings" aria-label="Settings">⚙</button>
+        </div>
+      </header>
+
+      <div class="workspace">
+        <aside class="sidebar">
+          <section>
+            <div class="section-heading">
+              <span data-i18n="providerPool">Nhóm nhà cung cấp</span>
+              <button id="refresh-status" class="mini-button" type="button" data-i18n-title="refresh">↻</button>
+            </div>
+            <div id="provider-list" class="provider-list" aria-live="polite"></div>
+          </section>
+
+          <section class="router-card">
+            <span class="eyebrow" data-i18n="routingPolicy">CHÍNH SÁCH ĐỊNH TUYẾN</span>
+            <h2 data-i18n="resilientTitle">Failover có trách nhiệm</h2>
+            <p data-i18n="resilientBody">Tôn trọng quota, Retry-After và điều khoản. Không xoay khóa hoặc IP để né giới hạn.</p>
+            <div class="signal-row">
+              <span>◉</span><span data-i18n="circuitBreaker">Circuit breaker</span>
+            </div>
+            <div class="signal-row">
+              <span>↯</span><span data-i18n="sequentialFailover">Failover tuần tự</span>
+            </div>
+            <div class="signal-row">
+              <span>⌁</span><span data-i18n="keysServerSide">Khóa chỉ ở máy chủ</span>
+            </div>
+          </section>
+
+          <nav class="side-links" aria-label="Project links">
+            <a href="https://github.com/Base27-CVNSS/DeepSeek-V4-Flash-0731-free-endpoint" target="_blank" rel="noreferrer">⌘ GitHub</a>
+            <a href="https://github.com/nejib1/Free-LLM" target="_blank" rel="noreferrer">◫ Free-LLM</a>
+            <a href="https://openrouter.ai/docs/guides/routing/routers/free-router" target="_blank" rel="noreferrer">↗ OpenRouter</a>
+          </nav>
+        </aside>
+
+        <main class="chat-panel">
+          <div class="chat-toolbar">
+            <label class="model-control">
+              <span data-i18n="model">Mô hình</span>
+              <select id="model-select">
+                <option value="free/auto" data-i18n="autoFree">Tự động · Miễn phí</option>
+                <option value="free/fast" data-i18n="fast">Nhanh</option>
+                <option value="free/reasoning" data-i18n="reasoning">Suy luận</option>
+                <option value="free/coding" data-i18n="coding">Lập trình</option>
+              </select>
+            </label>
+            <div class="toolbar-right">
+              <span id="last-route" class="last-route" data-i18n="noRoute">Chưa định tuyến</span>
+              <button id="clear-chat" class="text-button" type="button" data-i18n="clear">Xóa hội thoại</button>
+            </div>
+          </div>
+
+          <div id="conversation" class="conversation" aria-live="polite">
+            <section id="welcome" class="welcome">
+              <div class="welcome-icon">B<span>27</span></div>
+              <p class="eyebrow" data-i18n="welcomeEyebrow">MỘT API · NHIỀU NHÀ CUNG CẤP</p>
+              <h1 data-i18n="welcomeTitle">Trò chuyện với các mô hình miễn phí</h1>
+              <p data-i18n="welcomeBody">Gateway chọn một provider đang khả dụng và chuyển sang provider khác khi gặp lỗi tạm thời hoặc hết quota.</p>
+              <div class="prompt-grid">
+                <button class="prompt-card" type="button" data-prompt="architecture">
+                  <span>🏗</span><strong data-i18n="promptArchitecture">Giải thích kiến trúc router</strong>
+                </button>
+                <button class="prompt-card" type="button" data-prompt="code">
+                  <span>⌨</span><strong data-i18n="promptCode">Viết một API Node.js</strong>
+                </button>
+                <button class="prompt-card" type="button" data-prompt="compare">
+                  <span>⚖</span><strong data-i18n="promptCompare">So sánh các mô hình</strong>
+                </button>
+              </div>
+            </section>
+          </div>
+
+          <div class="composer-wrap">
+            <form id="chat-form" class="composer">
+              <textarea id="prompt" rows="1" maxlength="24000" data-i18n-placeholder="placeholder" placeholder="Nhập câu hỏi…" aria-label="Message"></textarea>
+              <button id="send-button" class="send-button" type="submit" data-i18n-title="send" aria-label="Send">➤</button>
+            </form>
+            <p class="composer-note" data-i18n="disclaimer">API miễn phí có thể chậm hoặc tạm hết quota. Không gửi dữ liệu nhạy cảm.</p>
+          </div>
+        </main>
+      </div>
+    </div>
+
+    <dialog id="settings-dialog" class="settings-dialog">
+      <form method="dialog" class="settings-card">
+        <div class="dialog-heading">
+          <div>
+            <span class="eyebrow" data-i18n="connection">KẾT NỐI</span>
+            <h2 data-i18n="settings">Cài đặt</h2>
+          </div>
+          <button class="icon-button" value="cancel" aria-label="Close">×</button>
+        </div>
+
+        <label>
+          <span data-i18n="gatewayUrl">URL gateway</span>
+          <input id="gateway-url" type="url" placeholder="https://your-worker.workers.dev" />
+        </label>
+        <label>
+          <span data-i18n="gatewayToken">Gateway token (tùy chọn)</span>
+          <input id="gateway-token" type="password" autocomplete="off" placeholder="••••••••" />
+        </label>
+        <p class="settings-note" data-i18n="tokenNote">Token truy cập được lưu trong sessionStorage của tab này; khóa provider không bao giờ nhập ở giao diện.</p>
+
+        <div class="dialog-actions">
+          <button class="secondary-button" value="cancel" data-i18n="cancel">Hủy</button>
+          <button id="save-settings" class="primary-button" value="default" data-i18n="save">Lưu và kiểm tra</button>
+        </div>
+      </form>
+    </dialog>
+
+    <script type="module" src="/app.js"></script>
+  </body>
+</html>
