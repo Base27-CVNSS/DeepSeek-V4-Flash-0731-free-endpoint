@@ -1,146 +1,192 @@
 <!doctype html>
-<html lang="vi">
+<html lang="vi" data-theme="dark">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#090d18" />
-    <meta name="description" content="Base27 Free LLM Router — trilingual OpenAI-compatible chat with legitimate provider failover." />
+    <meta name="theme-color" content="#07111f" />
+    <meta name="description" content="Base27 Free LLM Router — professional trilingual chat for responsibly routed free-tier AI APIs." />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="stylesheet" href="/styles.css" />
-    <title>Base27 Free LLM Router</title>
+    <title>Base27 AI — Free LLM Router</title>
   </head>
   <body>
+    <svg class="svg-sprite" aria-hidden="true">
+      <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" /></symbol>
+      <symbol id="i-panel" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2" /><path d="M9 4v16" /></symbol>
+      <symbol id="i-settings" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3" /><path d="M19.4 15a1.7 1.7 0 0 0 .34 1.88l.06.06-2.83 2.83-.06-.06a1.7 1.7 0 0 0-1.88-.34 1.7 1.7 0 0 0-1.03 1.56V21h-4v-.08A1.7 1.7 0 0 0 9 19.37a1.7 1.7 0 0 0-1.88.34l-.06.06-2.83-2.83.06-.06A1.7 1.7 0 0 0 4.63 15 1.7 1.7 0 0 0 3.08 14H3v-4h.08A1.7 1.7 0 0 0 4.63 9a1.7 1.7 0 0 0-.34-1.88l-.06-.06 2.83-2.83.06.06A1.7 1.7 0 0 0 9 4.63 1.7 1.7 0 0 0 10 3.08V3h4v.08A1.7 1.7 0 0 0 15 4.63a1.7 1.7 0 0 0 1.88-.34l.06-.06 2.83 2.83-.06.06A1.7 1.7 0 0 0 19.37 9 1.7 1.7 0 0 0 20.92 10H21v4h-.08A1.7 1.7 0 0 0 19.4 15Z" /></symbol>
+      <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4" /><path d="M12 2v2M12 20v2M4.93 4.93l1.42 1.42M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.42-1.42M17.66 6.34l1.41-1.41" /></symbol>
+      <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M20 7v5h-5M4 17v-5h5" /><path d="M6.1 8A7 7 0 0 1 18.5 6.5L20 12M4 12l1.5 5.5A7 7 0 0 0 17.9 16" /></symbol>
+      <symbol id="i-download" viewBox="0 0 24 24"><path d="M12 3v12M7 10l5 5 5-5M5 21h14" /></symbol>
+      <symbol id="i-trash" viewBox="0 0 24 24"><path d="M4 7h16M9 7V4h6v3M7 7l1 13h8l1-13M10 11v5M14 11v5" /></symbol>
+      <symbol id="i-send" viewBox="0 0 24 24"><path d="m4 4 17 8-17 8 3-8-3-8Z" /><path d="M7 12h14" /></symbol>
+      <symbol id="i-stop" viewBox="0 0 24 24"><rect x="6" y="6" width="12" height="12" rx="2" /></symbol>
+      <symbol id="i-copy" viewBox="0 0 24 24"><rect x="8" y="8" width="11" height="11" rx="2" /><path d="M16 8V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h3" /></symbol>
+      <symbol id="i-retry" viewBox="0 0 24 24"><path d="M20 6v6h-6M4 18v-6h6" /><path d="M18.6 9A7 7 0 0 0 6 6.4L4 12M20 12l-2 5.6A7 7 0 0 1 5.4 15" /></symbol>
+      <symbol id="i-github" viewBox="0 0 24 24"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3.3-.4 6.8-1.6 6.8-7.4A5.8 5.8 0 0 0 19.3 3 5.4 5.4 0 0 0 19.1 0S17.9-.4 15 1.5a14 14 0 0 0-6 0C6.1-.4 4.9 0 4.9 0a5.4 5.4 0 0 0-.2 3A5.8 5.8 0 0 0 3.2 7.1c0 5.8 3.5 7 6.8 7.4A4.8 4.8 0 0 0 9 18v4M9 19c-3 .9-3-1.5-4.2-2" /></symbol>
+      <symbol id="i-chevron" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6" /></symbol>
+    </svg>
+
     <div class="app-shell">
       <header class="topbar">
-        <a class="brand" href="/" aria-label="Base27 Free LLM Router">
-          <span class="brand-mark" aria-hidden="true">B</span>
-          <span class="brand-copy">
-            <strong><span class="base">Base</span><span class="twenty-seven">27</span></strong>
-            <small>FREE LLM ROUTER</small>
-          </span>
-        </a>
+        <div class="brand-area">
+          <button id="mobile-sidebar-button" class="icon-button mobile-only" type="button" data-i18n-title="openSidebar" aria-label="Open conversations">
+            <svg><use href="#i-panel" /></svg>
+          </button>
+          <a class="brand" href="/" aria-label="Base27 AI">
+            <span class="brand-mark" aria-hidden="true"><span>B</span><small>27</small></span>
+            <span class="brand-copy"><strong>Base<span>27</span> AI</strong><small>FREE LLM ROUTER</small></span>
+          </a>
+        </div>
 
         <div class="topbar-actions">
-          <div id="global-status" class="status-pill status-checking">
+          <div id="global-status" class="status-pill status-checking" role="status">
             <span class="status-dot"></span>
-            <span data-i18n="checking">Đang kiểm tra</span>
+            <span id="global-status-label" data-i18n="checking">Đang kiểm tra</span>
+            <span id="provider-count" class="status-count">—</span>
           </div>
           <label class="select-wrap">
             <span class="sr-only" data-i18n="language">Ngôn ngữ</span>
             <select id="language-select" aria-label="Language">
-              <option value="vi">🇻🇳 Tiếng Việt</option>
-              <option value="en">🇬🇧 English</option>
-              <option value="zh">🇨🇳 中文</option>
+              <option value="vi">VI · Tiếng Việt</option>
+              <option value="en">EN · English</option>
+              <option value="zh">中文</option>
             </select>
           </label>
-          <button id="settings-button" class="icon-button" type="button" data-i18n-title="settings" aria-label="Settings">⚙</button>
+          <button id="theme-button" class="icon-button" type="button" data-i18n-title="theme" aria-label="Toggle theme">
+            <svg><use href="#i-sun" /></svg>
+          </button>
+          <button id="settings-button" class="icon-button" type="button" data-i18n-title="settings" aria-label="Settings">
+            <svg><use href="#i-settings" /></svg>
+          </button>
         </div>
       </header>
 
       <div class="workspace">
-        <aside class="sidebar">
-          <section>
-            <div class="section-heading">
-              <span data-i18n="providerPool">Nhóm nhà cung cấp</span>
-              <button id="refresh-status" class="mini-button" type="button" data-i18n-title="refresh">↻</button>
-            </div>
-            <div id="provider-list" class="provider-list" aria-live="polite"></div>
-          </section>
+        <aside id="conversation-sidebar" class="conversation-sidebar">
+          <button id="new-chat" class="new-chat-button" type="button">
+            <svg><use href="#i-plus" /></svg><span data-i18n="newChat">Cuộc trò chuyện mới</span>
+          </button>
 
-          <section class="router-card">
-            <span class="eyebrow" data-i18n="routingPolicy">CHÍNH SÁCH ĐỊNH TUYẾN</span>
-            <h2 data-i18n="resilientTitle">Failover có trách nhiệm</h2>
-            <p data-i18n="resilientBody">Tôn trọng quota, Retry-After và điều khoản. Không xoay khóa hoặc IP để né giới hạn.</p>
-            <div class="signal-row">
-              <span>◉</span><span data-i18n="circuitBreaker">Circuit breaker</span>
-            </div>
-            <div class="signal-row">
-              <span>↯</span><span data-i18n="sequentialFailover">Failover tuần tự</span>
-            </div>
-            <div class="signal-row">
-              <span>⌁</span><span data-i18n="keysServerSide">Khóa chỉ ở máy chủ</span>
-            </div>
-          </section>
+          <div class="sidebar-heading">
+            <span data-i18n="recentChats">Gần đây</span>
+            <span id="chat-count">0</span>
+          </div>
+          <nav id="chat-list" class="chat-list" data-i18n-aria-label="recentChats" aria-label="Recent chats"></nav>
 
-          <nav class="side-links" aria-label="Project links">
-            <a href="https://github.com/Base27-CVNSS/DeepSeek-V4-Flash-0731-free-endpoint" target="_blank" rel="noreferrer">⌘ GitHub</a>
-            <a href="https://github.com/nejib1/Free-LLM" target="_blank" rel="noreferrer">◫ Free-LLM</a>
-            <a href="https://openrouter.ai/docs/guides/routing/routers/free-router" target="_blank" rel="noreferrer">↗ OpenRouter</a>
+          <div class="sidebar-spacer"></div>
+          <div class="privacy-card">
+            <span class="shield-icon" aria-hidden="true">✓</span>
+            <div><strong data-i18n="privacyTitle">Khóa API được bảo vệ</strong><p data-i18n="privacyBody">Khóa provider chỉ nằm trên Worker, không gửi xuống trình duyệt.</p></div>
+          </div>
+          <nav class="project-links" aria-label="Project links">
+            <a href="https://github.com/Base27-CVNSS/DeepSeek-V4-Flash-0731-free-endpoint" target="_blank" rel="noreferrer"><svg><use href="#i-github" /></svg><span>GitHub</span><svg class="chevron"><use href="#i-chevron" /></svg></a>
+            <a href="https://github.com/nejib1/Free-LLM" target="_blank" rel="noreferrer"><span class="link-mark">F</span><span>Free-LLM</span><svg class="chevron"><use href="#i-chevron" /></svg></a>
           </nav>
         </aside>
 
         <main class="chat-panel">
           <div class="chat-toolbar">
-            <label class="model-control">
-              <span data-i18n="model">Mô hình</span>
-              <select id="model-select">
-                <option value="free/auto" data-i18n="autoFree">Tự động · Miễn phí</option>
-                <option value="free/fast" data-i18n="fast">Nhanh</option>
-                <option value="free/reasoning" data-i18n="reasoning">Suy luận</option>
-                <option value="free/coding" data-i18n="coding">Lập trình</option>
-              </select>
-            </label>
-            <div class="toolbar-right">
-              <span id="last-route" class="last-route" data-i18n="noRoute">Chưa định tuyến</span>
-              <button id="clear-chat" class="text-button" type="button" data-i18n="clear">Xóa hội thoại</button>
+            <div class="toolbar-title">
+              <strong id="active-chat-title" data-i18n="newChat">Cuộc trò chuyện mới</strong>
+              <span id="last-route" data-i18n="noRoute">Chưa có tuyến API</span>
+            </div>
+            <div class="toolbar-actions">
+              <label class="model-control">
+                <span class="sr-only" data-i18n="model">Mô hình</span>
+                <select id="model-select" aria-label="Model">
+                  <option value="free/auto" data-i18n="autoFree">Auto · Miễn phí</option>
+                  <option value="free/fast" data-i18n="fast">Nhanh</option>
+                  <option value="free/reasoning" data-i18n="reasoning">Suy luận</option>
+                  <option value="free/coding" data-i18n="coding">Lập trình</option>
+                </select>
+              </label>
+              <button id="export-chat" class="icon-button" type="button" data-i18n-title="exportChat" aria-label="Export chat">
+                <svg><use href="#i-download" /></svg>
+              </button>
+              <button id="clear-chat" class="icon-button danger-button" type="button" data-i18n-title="deleteChat" aria-label="Delete chat">
+                <svg><use href="#i-trash" /></svg>
+              </button>
+              <button id="mobile-insights-button" class="icon-button mobile-only" type="button" data-i18n-title="providerPool" aria-label="Provider status">
+                <span class="provider-glyph">P</span>
+              </button>
             </div>
           </div>
 
-          <div id="conversation" class="conversation" aria-live="polite">
+          <div id="conversation" class="conversation" aria-live="polite" aria-busy="false">
             <section id="welcome" class="welcome">
-              <div class="welcome-icon">B<span>27</span></div>
-              <p class="eyebrow" data-i18n="welcomeEyebrow">MỘT API · NHIỀU NHÀ CUNG CẤP</p>
-              <h1 data-i18n="welcomeTitle">Trò chuyện với các mô hình miễn phí</h1>
-              <p data-i18n="welcomeBody">Gateway chọn một provider đang khả dụng và chuyển sang provider khác khi gặp lỗi tạm thời hoặc hết quota.</p>
+              <div class="hero-mark" aria-hidden="true"><span>B</span><small>27</small></div>
+              <span class="hero-kicker" data-i18n="welcomeEyebrow">MỘT ĐIỂM CHAT · NHIỀU API MIỄN PHÍ</span>
+              <h1 data-i18n="welcomeTitle">Hỏi bất cứ điều gì.<br />Router lo phần còn lại.</h1>
+              <p data-i18n="welcomeBody">Một giao diện cho nhiều nhà cung cấp. Gateway tự chọn tuyến khả dụng, tôn trọng quota và chuyển tuyến khi có lỗi tạm thời.</p>
+
               <div class="prompt-grid">
-                <button class="prompt-card" type="button" data-prompt="architecture">
-                  <span>🏗</span><strong data-i18n="promptArchitecture">Giải thích kiến trúc router</strong>
-                </button>
-                <button class="prompt-card" type="button" data-prompt="code">
-                  <span>⌨</span><strong data-i18n="promptCode">Viết một API Node.js</strong>
-                </button>
-                <button class="prompt-card" type="button" data-prompt="compare">
-                  <span>⚖</span><strong data-i18n="promptCompare">So sánh các mô hình</strong>
-                </button>
+                <button class="prompt-card" type="button" data-prompt="research"><span class="prompt-icon blue">R</span><span><strong data-i18n="promptResearch">Nghiên cứu nhanh</strong><small data-i18n="promptResearchSub">Tóm tắt một chủ đề phức tạp</small></span><svg><use href="#i-chevron" /></svg></button>
+                <button class="prompt-card" type="button" data-prompt="code"><span class="prompt-icon violet">&lt;/&gt;</span><span><strong data-i18n="promptCode">Viết và rà soát mã</strong><small data-i18n="promptCodeSub">Tạo API có xử lý lỗi an toàn</small></span><svg><use href="#i-chevron" /></svg></button>
+                <button class="prompt-card" type="button" data-prompt="translate"><span class="prompt-icon green">文</span><span><strong data-i18n="promptTranslate">Dịch ba ngôn ngữ</strong><small data-i18n="promptTranslateSub">Việt, Anh và Trung giản thể</small></span><svg><use href="#i-chevron" /></svg></button>
+                <button class="prompt-card" type="button" data-prompt="compare"><span class="prompt-icon amber">≋</span><span><strong data-i18n="promptCompare">So sánh mô hình</strong><small data-i18n="promptCompareSub">Chọn tuyến phù hợp cho tác vụ</small></span><svg><use href="#i-chevron" /></svg></button>
+              </div>
+
+              <div class="trust-row">
+                <span><i></i><span data-i18n="serverKeys">Khóa phía máy chủ</span></span>
+                <span><i></i><span data-i18n="responsibleFailover">Failover có trách nhiệm</span></span>
+                <span><i></i><span data-i18n="threeLanguages">3 ngôn ngữ</span></span>
               </div>
             </section>
           </div>
 
           <div class="composer-wrap">
             <form id="chat-form" class="composer">
-              <textarea id="prompt" rows="1" maxlength="24000" data-i18n-placeholder="placeholder" placeholder="Nhập câu hỏi…" aria-label="Message"></textarea>
-              <button id="send-button" class="send-button" type="submit" data-i18n-title="send" aria-label="Send">➤</button>
+              <textarea id="prompt" rows="1" maxlength="24000" data-i18n-placeholder="placeholder" placeholder="Nhập tin nhắn cho Base27 AI…" aria-label="Message"></textarea>
+              <div class="composer-footer">
+                <div class="composer-meta"><span id="character-count">0 / 24k</span><span class="keyboard-hint"><kbd>Enter</kbd> <span data-i18n="toSend">để gửi</span></span></div>
+                <button id="send-button" class="send-button" type="submit" data-i18n-title="send" aria-label="Send"><svg><use href="#i-send" /></svg></button>
+                <button id="stop-button" class="send-button stop-button" type="button" data-i18n-title="stop" aria-label="Stop" hidden><svg><use href="#i-stop" /></svg></button>
+              </div>
             </form>
-            <p class="composer-note" data-i18n="disclaimer">API miễn phí có thể chậm hoặc tạm hết quota. Không gửi dữ liệu nhạy cảm.</p>
+            <p class="composer-note" data-i18n="disclaimer">API miễn phí có thể chậm hoặc tạm hết quota. Hãy kiểm tra thông tin quan trọng và không gửi dữ liệu nhạy cảm.</p>
           </div>
         </main>
+
+        <aside id="insights-panel" class="insights-panel">
+          <section class="insight-section">
+            <div class="section-heading"><div><span data-i18n="providerPool">NHÓM PROVIDER</span><small id="provider-summary">—</small></div><button id="refresh-status" class="icon-button small-button" type="button" data-i18n-title="refresh" aria-label="Refresh"><svg><use href="#i-refresh" /></svg></button></div>
+            <div id="provider-list" class="provider-list" aria-live="polite"></div>
+          </section>
+
+          <section class="route-card">
+            <span class="card-kicker" data-i18n="lastRequest">YÊU CẦU GẦN NHẤT</span>
+            <div class="route-line"><span data-i18n="provider">Provider</span><strong id="route-provider">—</strong></div>
+            <div class="route-line"><span data-i18n="servedModel">Model thực</span><strong id="route-model">—</strong></div>
+            <div class="route-line"><span data-i18n="latency">Độ trễ</span><strong id="route-latency">—</strong></div>
+          </section>
+
+          <section class="policy-card">
+            <span class="card-kicker" data-i18n="routingPolicy">CHÍNH SÁCH ROUTER</span>
+            <h2 data-i18n="responsibleTitle">Miễn phí, minh bạch, có giới hạn</h2>
+            <p data-i18n="responsibleBody">Router tôn trọng Retry-After, circuit breaker và điều khoản provider. Không xoay khóa hoặc IP để né quota.</p>
+            <ul>
+              <li><span>01</span><span data-i18n="sequentialFailover">Failover tuần tự</span></li>
+              <li><span>02</span><span data-i18n="circuitBreaker">Circuit breaker</span></li>
+              <li><span>03</span><span data-i18n="honestAvailability">Không cam kết 24/7</span></li>
+            </ul>
+          </section>
+        </aside>
       </div>
     </div>
+
+    <div id="drawer-backdrop" class="drawer-backdrop" hidden></div>
+    <div id="toast-region" class="toast-region" role="status" aria-live="polite"></div>
 
     <dialog id="settings-dialog" class="settings-dialog">
       <form method="dialog" class="settings-card">
         <div class="dialog-heading">
-          <div>
-            <span class="eyebrow" data-i18n="connection">KẾT NỐI</span>
-            <h2 data-i18n="settings">Cài đặt</h2>
-          </div>
-          <button class="icon-button" value="cancel" aria-label="Close">×</button>
+          <div><span class="card-kicker" data-i18n="connection">KẾT NỐI GATEWAY</span><h2 data-i18n="settings">Cài đặt</h2><p data-i18n="settingsIntro">Kết nối giao diện với Worker tương thích OpenAI của bạn.</p></div>
+          <button class="icon-button close-button" value="cancel" aria-label="Close">×</button>
         </div>
-
-        <label>
-          <span data-i18n="gatewayUrl">URL gateway</span>
-          <input id="gateway-url" type="url" placeholder="https://your-worker.workers.dev" />
-        </label>
-        <label>
-          <span data-i18n="gatewayToken">Gateway token (tùy chọn)</span>
-          <input id="gateway-token" type="password" autocomplete="off" placeholder="••••••••" />
-        </label>
-        <p class="settings-note" data-i18n="tokenNote">Token truy cập được lưu trong sessionStorage của tab này; khóa provider không bao giờ nhập ở giao diện.</p>
-
-        <div class="dialog-actions">
-          <button class="secondary-button" value="cancel" data-i18n="cancel">Hủy</button>
-          <button id="save-settings" class="primary-button" value="default" data-i18n="save">Lưu và kiểm tra</button>
-        </div>
+        <label><span data-i18n="gatewayUrl">URL gateway</span><input id="gateway-url" type="url" inputmode="url" placeholder="https://your-worker.workers.dev" /></label>
+        <label><span data-i18n="gatewayToken">Gateway token (tùy chọn)</span><div class="password-field"><input id="gateway-token" type="password" autocomplete="off" placeholder="••••••••" /><button id="toggle-token" type="button" data-i18n="show">Hiện</button></div></label>
+        <div class="security-note"><span>✓</span><p data-i18n="tokenNote">Token gateway chỉ được lưu trong phiên của tab. Khóa OpenRouter, Groq, Gemini và các provider khác phải được lưu bằng Worker secrets.</p></div>
+        <div class="dialog-actions"><button class="secondary-button" value="cancel" data-i18n="cancel">Hủy</button><button id="save-settings" class="primary-button" value="default" data-i18n="save">Lưu và kiểm tra</button></div>
       </form>
     </dialog>
 
